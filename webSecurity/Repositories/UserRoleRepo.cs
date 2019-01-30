@@ -59,5 +59,4 @@ namespace webSecurity.Repositories
             return roleVMObjects;
         }
     }
-
 }

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using webSecurity.Data;
 using webSecurity.ViewModels;
 
 namespace webSecurity.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         ApplicationDbContext _context;
@@ -22,6 +25,21 @@ namespace webSecurity.Controllers
         {
             RoleRepo roleRepo = new RoleRepo(_context);
             return View(roleRepo.GetAllRoles());
+        }
+
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+            RoleRepo roleRepo = new RoleRepo(_context);
+            return View(roleRepo.GetRole(id));
+        }
+        
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteAction(string id)
+        {
+            RoleRepo roleRepo = new RoleRepo(_context);
+            roleRepo.DeleteRole(id);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]

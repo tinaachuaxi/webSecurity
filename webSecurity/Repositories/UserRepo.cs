@@ -26,6 +26,27 @@ namespace webSecurity.Repositories
             return users;
         }
 
+        public UserVM GetUser(string id)
+        {
+            var user = _context.Users.Select(u => new UserVM()
+            {
+                Email = u.Email
+            }).Where(u => u.Email == id).FirstOrDefault();
+            return user;
+        }
+
+        public bool RemoveUser(string id)
+        {
+            var user = _context.Users.Select(u => u).Where(u => u.Email == id).FirstOrDefault();
+            if(id == null)
+            {
+                return false;
+            }
+            _context.Users.Remove(user);
+
+            _context.SaveChanges();
+            return true;
+        }
     }
 
 }

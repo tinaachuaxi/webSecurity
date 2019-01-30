@@ -58,5 +58,16 @@ namespace webSecurity
             return true;
         }
 
+        public bool DeleteRole(string roleName)
+        {
+            var role = _context.Roles.Where(r => r.Name == roleName).FirstOrDefault(); ;
+            if (role == null)
+            {
+                return false;
+            }
+            _context.Roles.Remove(role);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

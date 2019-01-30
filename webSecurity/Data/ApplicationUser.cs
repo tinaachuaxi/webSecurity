@@ -10,6 +10,11 @@ namespace webSecurity.Data
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        // Navigation properties.
+        // Child.
+        public virtual ICollection<Invoice> Invoices { get; set; }
+
     }
 
 }

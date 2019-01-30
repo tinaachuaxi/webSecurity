@@ -2,6 +2,7 @@
 // The annotation could include a comma separated list or different
 // roles.
 //[Authorize(Roles = "Admin")]
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -12,9 +13,14 @@ using webSecurity.Data;
 using webSecurity.Repositories;
 using webSecurity.ViewModels;
 
+// This annotation can be used at the class or method level.
+// The annotation could include a comma separated list or different
+// roles.
+[Authorize(Roles = "Admin")]
+
 public class UserRoleController : Controller
 {
-    private ApplicationDbContext _context;//
+    private ApplicationDbContext _context;
     private IServiceProvider _serviceProvider;
 
     public UserRoleController(ApplicationDbContext context,
@@ -108,4 +114,30 @@ public class UserRoleController : Controller
             return View();
         }
     }
+
+    [HttpPost, ActionName("DeleteRole")]
+    public ActionResult Delete(string email, string roleName)
+    {
+        UserRoleRepo userRoleRepo = new UserRoleRepo(_serviceProvider);
+        userRoleRepo.RemoveUserRole(email, roleName);
+        return RedirectToAction("Detail", "UserRole",
+                   new { userName = email });
+    }
+
+
+    [HttpGet]
+    public IActionResult Delete(string id)
+    {
+        UserRepo userRepo = new UserRepo(_context);
+        return View(userRepo.GetUser(id));
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public ActionResult DeleteAction(string id)
+    {
+        UserRepo userRepo = new UserRepo(_context);
+        userRepo.RemoveUser(id);
+        return RedirectToAction(nameof(Index));
+    }
+
 }
