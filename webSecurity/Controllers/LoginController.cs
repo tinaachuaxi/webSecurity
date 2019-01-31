@@ -58,7 +58,7 @@ namespace webSecurity.Controllers
         [Route("UserName")]
         // Since we have cookie authentication and Jwt authentication we must
         // specify that we want Jwt authentication here.
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<string> getUserName()
         {
             var claim = HttpContext.User.Claims.ElementAt(1);
