@@ -54,6 +54,20 @@ namespace webSecurity.Controllers
             return new string[] { "value1", "value2", "value3", "value4", "value5" };
         }
 
+        [HttpGet]
+        [Route("UserName")]
+        // Since we have cookie authentication and Jwt authentication we must
+        // specify that we want Jwt authentication here.
+        [Authorize]
+        public ActionResult<string> getUserName()
+        {
+            var claim = HttpContext.User.Claims.ElementAt(1);
+            string userName = claim.Value;
+            return userName;
+        }
+
+
+
         [HttpPost]
         public async Task<JsonResult> OnPostAsync([FromBody]LoginVM loginVM)
         {
