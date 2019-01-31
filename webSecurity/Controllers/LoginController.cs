@@ -61,7 +61,7 @@ namespace webSecurity.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<string> getUserName()
         {
-            var claim = HttpContext.User.Claims.ElementAt(1);
+            var claim = HttpContext.User.Claims.ElementAt(0);
             string userName = claim.Value;
             return userName;
         }
